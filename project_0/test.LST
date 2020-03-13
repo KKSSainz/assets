@@ -1,7 +1,7 @@
 *******************************************
 **  B O M O D E L    L I S T    F I L E  **
 *******************************************
-Current date and time: 13.03.2020     01:39
+Current date and time: 13.03.2020     09:37
 
 Reading input file:    test
 Reading included file: INCLUDE/ZCORN ... OK
@@ -10,11 +10,7 @@ Reading included file: INCLUDE/PERM ... OK
 Reading included file: INCLUDE/PORO ... OK
 End of input file:     test
 
-Input of: RUNSPE  
-
-### Warning at time        0.0  [day]  :
-### Unknown keyword (RUNSPE ) was found. Keyword RUNSPEC is supposed.               
-
+Input of: RUNSPEC 
 Input of: GRID    
 Input of: INCLUDE 
 Input of: ZCORN   
