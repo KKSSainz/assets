@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 {"includes":["ZCORN","COORD","PERM","PORO"],"Dir":"project_0","DatFileName":"test.dat","TxtFile":"realita.txt"}
-=======
-{"includes":["ZCORN","COORD","PERM","PORO"],"Dir":"project_0","DatFileName":"test.dat","TxtFile":null}
->>>>>>> f20226a9c7c75e985356b6f90603e1216f2c27ea
