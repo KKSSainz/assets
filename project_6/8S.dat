@@ -1,0 +1,259 @@
+RUNSPEC
+        8.sarmat
+= 4. NDIVIX NDIVIY NDIVIZ QRDIAL NUMRES QNNCON MXNAQN MXNAQC QDPORO QDPERM  MFSEGS
+     24     98     5      F      1      T      30     3000   F      F  /
+= 6. OIL WAT GAS DGAS VOIL API PLY BRI NOTRC NWTRC NGTRC MISC GI SOLV SFT
+     F   T   T    T    F   F   F   F   0     0     0     F    F   F   /
+= 8. UNIT CONVENTION
+     'METRIC'                                  /
+=10. NRPVT  NPPVT  NTPVT NTROCC QROCKC QRCREV QROCKH QVEO2D QSURFT QMDIFF
+     44     77     1      1      F      T     F      F      F   /
+=12. NSS   NTS DIRK REVK VEOP HYST SCAL SDIR SREV NSEND NTEND 2PT NSMIS NTMIS
+     77    1   F    T    F    F    T    F    T     1     1    F     1     1 /
+=14. NDRXVD NTEQUL NDPRVD QUIESC QTHPRS QREVTH QMOBIL NTTRVD NSTRVD
+     44     2      100    F      F      T      F      1      1         /
+=16. NTFIP  QGRAID QINTRP QTDISP NTFREG QTDISK NRFREG NMFIPR
+     29     F      F      F      0    /
+=18. NWMAXZ NCWMAX NGMAXZ NWGMAX MAXLGR MAXCLS MCOARS LSTACK
+     60     10     8      40      /
+=20. QEXGOP NWFRIC NUPCOL
+     F      0      5                           /
+=22. MXMFLO MXMTHP MXMWFR MXMGFR MXMALQ NMMVFT
+     0      0      0      0      0      0      /
+=24. MXSFLO MXSTHP NMSVFT
+     0      0      0                           /
+=26. NAMAXZ NCAMAX NIFTBL NRIFTB
+     7      2280   2      36    /  280
+=28. DAY   MONTH  YEAR
+     01    'JUL'  2007                         /
+=30. QSOLVE NSTACK QFMTOU QFMTIN QUNOUT QUNINP NGDISK IDYNAM QOPT9P
+     T      20     F      F      T      T       0      0    F /
+
+
+--********************************************************************--
+--****                        G  R  I  D                          ****--
+--********************************************************************--
+--
+GRID
+
+INCLUDE
+  'INCLUDE/COORD' /
+
+INCLUDE
+  'INCLUDE/ZCORN' /
+
+INCLUDE
+  'INCLUDE/NTG' /
+
+INCLUDE
+  'INCLUDE/PORO' /
+
+INCLUDE
+  'INCLUDE/PERMX' /
+
+INCLUDE
+  'INCLUDE/ACTNUM' /
+
+
+MULTIPLY 
+         'PERMX'    2    1  24  54  98   1  5  /
+         'PERMX'  10000  1  24  54  98   2  2  /
+         'PERMX'  10000  1  24  54  98   4  4  /
+         'PERMX'  10000  1  24   1  53   4  4  /
+         'PERMX'    5    21 24   26 32   1  5  /
+         'PERMX'    5    15 22    9 17   1  5  /
+/
+
+
+COPY                 
+   'PERMX' 'PERMY'  /
+   'PERMX' 'PERMZ'  /
+/                    
+
+
+INCLUDE
+  'INCLUDE/MULTPORO' /
+
+
+MULTIPLY
+           'NTG'   0.55  1  24   1   98   1  5  / 
+           'NTG'   0.67  1  24   1   53   1  5  /
+           'NTG'   0.98  1  24  54   98   1  5  /
+/
+
+RPTGRID
+-- DX DY DZ PX PY PZ MX MY MZ PORO NTG TOPS PORV DEPTH TX TY TZ
+   0  0  1  1  1  1  0  0  0  1    0   1    1    1     1  1  1  0  0  0  0  0  0  1  /
+-- 0  0  0  0  0  0  0  0  0  0    0   0    0    0     0  0  0  0  0  0  0  0  0  1  /
+
+--********************************************************************--
+--****                       E  D  I  T                           ****--
+--********************************************************************--
+
+EDIT
+
+--********************************************************************--
+--****                      P  R  O  P  S                         ****--
+--********************************************************************--
+
+PROPS
+
+INCLUDE
+  'INCLUDE/PROPS' /
+
+
+--********************************************************************--
+--****                      R E G I O N S                         ****--
+--********************************************************************--
+
+REGIONS
+
+-- Jih
+BOX
+    1   24    1   53    1  5  /
+EQLNUM
+       6360*1  /
+FIPNUM
+       6360*1 /
+
+-- Sever
+BOX
+    1   24    54   98    1  5  /
+EQLNUM
+       5400*2  /
+FIPNUM
+       5400*2 /
+
+
+
+--********************************************************************--
+--****                     S O L U T I O N                        ****--
+--********************************************************************--
+
+SOLUTION
+
+DATUM                                                                             
+  995.00 /                                                                        
+                                                                                  
+EQUIL                                                                             
+    950.00  120.00   991.00   0  0  0  0  0  0   / 
+    950.00  113.00   972.00   0  0  0  0  0  0   / 
+
+AQUCT
+-- No   Depth  Press   Perme    Poro  Compr   Radius Thickness  Angle
+    1   980.00 116.00  1000.00  0.50  9.6E-5  50000    30        360    1  1  0 /  118
+    2   985.00 113.00  1000.00  0.01  9.6E-5  50000    80        360    1  1  0 / 
+/                                                                     
+
+--AQUFETP
+--     1    985.00  120.00  2.50E10   9.80E-5  540  1 /         28  70
+--/
+
+AQUANCON
+   1   1  24   1   1  1 5   'I-'  1*  /             jih
+   2   1  24  98  98  1 5   'I-'  1*  /             sever
+/
+
+
+RPTSOL
+ 40*0
+/
+
+
+--*******************************************************************--
+--****                    S  U  M  M  A  R  Y                     ****--
+--********************************************************************--
+
+SUMMARY
+
+RGIP
+1
+2
+/
+
+--FWPR
+
+WBHP
+'HR-75   '
+'Z-68    '
+/
+
+FGIP
+
+--WBHP
+--'HR-153  '
+--'HR-155  '
+--'HR-169  '
+--'Z-3     '
+--'Z-16    '
+--'Z-17    '
+--'Z-29    '
+--'Z-30    '
+--'Z-31    '
+--'Z-32    '
+--'Z-33    '
+--'Z-34    '
+--'Z-68    '
+--'Z-69    '
+--/
+
+
+--********************************************************************--
+--****                  S  C  H  E  D  U  L  E                    ****--
+--********************************************************************--
+
+SCHEDULE
+
+MESSAGES
+   100000   100000   100000  1000      1*      1*
+   100000   100000   100000  1000      1*      1*   /
+
+
+--TUNING
+--  0.100000 365.0000 0.100000 0.150000  3.000000 0.300000 0.100000 1.250000 /
+--/
+--/
+
+
+INCLUDE
+  'INCLUDE/WELSPEC' /
+
+RPTSCHED
+-- PRES SOIL SWAT SGAS RS RV RESTART
+   0    0    0    5    0  0       /
+
+
+WCONPROD
+'HR-75   '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'HR-153  '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'HR-155  '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'HR-169  '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-3     '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-16    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-17    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-29    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-30    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-31    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-32    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-33    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-34    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-68    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+'Z-69    '  'STOP' 'GRAT'  1*  1*   0  1* 1*   20  /
+/
+
+
+TSTEP
+       2 2 2 2 2 /
+
+
+INCLUDE
+  'INCLUDE/SCHEDULE' /
+
+RPTSCHED
+-- PRES SOIL SWAT SGAS RS RV RESTART
+   1    0    0    1    0  0  2       /
+
+TSTEP
+      1  /
+
+END
