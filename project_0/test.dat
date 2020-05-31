@@ -1,5 +1,5 @@
 RUNSPEC
-        Testovaci model 1
+        Testovaci model
 = 4. NDIVIX NDIVIY NDIVIZ QRDIAL NUMRES QNNCON MXNAQN MXNAQC QDPORO QDPERM  MFSEGS
      9      9      2      F      1      F      0      0      F      F  /
 = 6. OIL WAT GAS DGAS VOIL API PLY BRI NOTRC NWTRC NGTRC MISC GI SOLV SFT
